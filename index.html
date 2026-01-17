@@ -6,19 +6,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             scrollbar-width: thin;
-            scrollbar-color: #4a9fd8 #1a1a1a;
+            scrollbar-color: #4a9fd8 #191919;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             height: 100vh;
-            background: #0d1117;
+            background: #191919;
             color: #e6edf3;
             overflow: hidden;
             display: flex;
@@ -31,7 +32,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: #1a1a1a;
+            background: #191919;
         }
 
         ::-webkit-scrollbar-thumb {
@@ -42,17 +43,17 @@
         nav.tabs {
             display: flex;
             align-items: center;
-            background: #0d1117;
+            background: #191919;
             padding: 6px 0 6px 10px;
             gap: 4px;
-            border-bottom: 1px solid #21262d;
+            border-bottom: 1px solid #1e1e1e;
             min-height: 34px;
             overflow-x: auto;
         }
 
             nav.tabs button {
-                background: #161b22;
-                border: 2px solid #30363d;
+                background: #1e1e1e;
+                border: 2px solid #2a2a2a;
                 padding: 5px 11px;
                 border-radius: 6px;
                 font-size: 0.7rem;
@@ -70,15 +71,15 @@
             }
 
                 nav.tabs button.active {
-                    background: #1c2128;
+                    background: #1e1e1e;
                     border: 2px solid #4a9fd8;
-                    color: #e6edf3;
+                    color: #58a6ff;
                     box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
                     transform: translateY(2px);
                 }
 
                 nav.tabs button:hover:not(.active) {
-                    background: #1c2128;
+                    background: #1e1e1e;
                     border-color: #58a6ff;
                     color: #c9d1d9;
                 }
@@ -130,8 +131,8 @@
             height: 20px;
             font-size: 0.6rem;
             color: #58a6ff;
-            background: #161b22;
-            border: 1px solid #30363d;
+            background: #1e1e1e;
+            border: 1px solid #2a2a2a;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -143,7 +144,7 @@
         }
 
             nav.tabs .add-tab:hover {
-                background: #1c2128;
+                background: #1e1e1e;
                 color: #4a9fd8;
                 border-color: #4a9fd8;
                 transform: scale(1.1);
@@ -157,7 +158,7 @@
         #editors-container {
             flex: 1;
             position: relative;
-            background: #0d1117;
+            background: #191919;
         }
 
         .editor-instance {
@@ -190,7 +191,7 @@
         input.rename-input {
             font-family: 'Poppins', sans-serif;
             font-size: 0.7rem;
-            background: #1c2128;
+            background: #1e1e1e;
             color: #e6edf3;
             border: 1px solid #4a9fd8;
             border-radius: 4px;
@@ -224,13 +225,21 @@
                     { token: 'variable', foreground: 'ffa657' },
                 ],
                 colors: {
-                    'editor.background': '#0d1117',
+                    'editor.background': '#191919',
                     'editor.foreground': '#e6edf3',
-                    'editor.lineHighlightBackground': '#161b22',
+                    'editor.lineHighlightBackground': '#1e1e1e',
                     'editorLineNumber.foreground': '#6e7681',
+                    'editorLineNumber.activeForeground': '#58a6ff',
                     'editor.selectionBackground': '#1f6feb4d',
                     'editor.inactiveSelectionBackground': '#1f6feb26',
                     'editorCursor.foreground': '#58a6ff',
+                    'editorWidget.background': '#1e1e1e',
+                    'editorWidget.border': '#4a9fd8',
+                    'editorSuggestWidget.background': '#1e1e1e',
+                    'editorSuggestWidget.border': '#2a2a2a',
+                    'editorSuggestWidget.selectedBackground': '#2a2a2a',
+                    'editorHoverWidget.background': '#1e1e1e',
+                    'editorHoverWidget.border': '#4a9fd8',
                 }
             });
             addNewTab('main.lua');
@@ -247,14 +256,12 @@
                 model: model,
                 theme: 'winterTheme',
                 fontSize: 14,
-                fontFamily: 'Poppins',
+                fontFamily: "'JetBrains Mono', 'Consolas', 'Courier New', monospace",
+                fontLigatures: true,
                 automaticLayout: true,
-                smoothScrolling: false,
-                cursorSmoothCaretAnimation: false,
-                disableLayerHinting: true,
-                fontLigatures: false,
-                renderWhitespace: 'none',
-                scrollBeyondLastLine: false
+                smoothScrolling: true,
+                cursorSmoothCaretAnimation: 'on',
+                cursorBlinking: 'smooth'
             });
             createTab(filename);
             switchTab(filename);
