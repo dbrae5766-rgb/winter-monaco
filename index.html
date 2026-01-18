@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Winter Editor</title>
+    <title>Flare Editor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
@@ -13,7 +13,7 @@
             padding: 0;
             box-sizing: border-box;
             scrollbar-width: thin;
-            scrollbar-color: #4a9fd8 #191919;
+            scrollbar-color: #ff6b35 #191919;
         }
 
         body {
@@ -36,7 +36,7 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #4a9fd8;
+            background: #ff6b35;
             border-radius: 6px;
         }
 
@@ -72,15 +72,15 @@
 
                 nav.tabs button.active {
                     background: #1e1e1e;
-                    border: 2px solid #4a9fd8;
-                    color: #58a6ff;
+                    border: 2px solid #ff6b35;
+                    color: #ff8555;
                     box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
                     transform: translateY(2px);
                 }
 
                 nav.tabs button:hover:not(.active) {
                     background: #1e1e1e;
-                    border-color: #58a6ff;
+                    border-color: #ff8555;
                     color: #c9d1d9;
                 }
 
@@ -130,7 +130,7 @@
             width: 20px;
             height: 20px;
             font-size: 0.6rem;
-            color: #58a6ff;
+            color: #ff8555;
             background: #1e1e1e;
             border: 1px solid #2a2a2a;
             border-radius: 50%;
@@ -145,8 +145,8 @@
 
             nav.tabs .add-tab:hover {
                 background: #1e1e1e;
-                color: #4a9fd8;
-                border-color: #4a9fd8;
+                color: #ff6b35;
+                border-color: #ff6b35;
                 transform: scale(1.1);
             }
 
@@ -193,7 +193,7 @@
             font-size: 0.7rem;
             background: #1e1e1e;
             color: #e6edf3;
-            border: 1px solid #4a9fd8;
+            border: 1px solid #ff6b35;
             border-radius: 4px;
             padding: 2px 6px;
             width: 100px;
@@ -213,40 +213,40 @@
         require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } });
         require(['vs/editor/editor.main'], () => {
             monacoInstance = monaco;
-            monaco.editor.defineTheme('winterTheme', {
+            monaco.editor.defineTheme('flareTheme', {
                 base: 'vs-dark',
                 inherit: true,
                 rules: [
                     { token: 'comment', foreground: '6e7681', fontStyle: 'italic' },
-                    { token: 'keyword', foreground: '58a6ff', fontStyle: 'bold' },
-                    { token: 'string', foreground: '79c0ff' },
-                    { token: 'number', foreground: '79c0ff' },
-                    { token: 'function', foreground: 'd2a8ff' },
-                    { token: 'variable', foreground: 'ffa657' },
+                    { token: 'keyword', foreground: 'ff8555', fontStyle: 'bold' },
+                    { token: 'string', foreground: 'ffa657' },
+                    { token: 'number', foreground: 'ffa657' },
+                    { token: 'function', foreground: 'ffb366' },
+                    { token: 'variable', foreground: 'ff9a4d' },
                 ],
                 colors: {
                     'editor.background': '#191919',
                     'editor.foreground': '#e6edf3',
                     'editor.lineHighlightBackground': '#1e1e1e',
                     'editorLineNumber.foreground': '#6e7681',
-                    'editorLineNumber.activeForeground': '#58a6ff',
-                    'editor.selectionBackground': '#1f6feb4d',
-                    'editor.inactiveSelectionBackground': '#1f6feb26',
-                    'editorCursor.foreground': '#58a6ff',
+                    'editorLineNumber.activeForeground': '#ff8555',
+                    'editor.selectionBackground': '#ff6b354d',
+                    'editor.inactiveSelectionBackground': '#ff6b3526',
+                    'editorCursor.foreground': '#ff8555',
                     'editorWidget.background': '#1e1e1e',
-                    'editorWidget.border': '#4a9fd8',
+                    'editorWidget.border': '#ff6b35',
                     'editorSuggestWidget.background': '#1e1e1e',
                     'editorSuggestWidget.border': '#2a2a2a',
                     'editorSuggestWidget.selectedBackground': '#2a2a2a',
                     'editorHoverWidget.background': '#1e1e1e',
-                    'editorHoverWidget.border': '#4a9fd8',
+                    'editorHoverWidget.border': '#ff6b35',
                 }
             });
             addNewTab('main.lua');
         });
         function addNewTab(name) {
             const filename = name || `main${fileCounter++}.lua`;
-            const model = monacoInstance.editor.createModel('print("Winter")', 'lua');
+            const model = monacoInstance.editor.createModel('print("Flare")', 'lua');
             models[filename] = model;
             const editorDiv = document.createElement('div');
             editorDiv.id = `editor-${filename}`;
@@ -254,7 +254,7 @@
             editorsContainer.appendChild(editorDiv);
             editors[filename] = monacoInstance.editor.create(editorDiv, {
                 model: model,
-                theme: 'winterTheme',
+                theme: 'flareTheme',
                 fontSize: 14,
                 fontFamily: "'JetBrains Mono', 'Consolas', 'Courier New', monospace",
                 fontLigatures: true,
@@ -272,7 +272,7 @@
             const tabContent = document.createElement('div');
             tabContent.className = 'tab-content';
             const icon = document.createElement('i');
-            icon.className = 'fas fa-file-code';
+            icon.className = 'fas fa-fire';
             const label = document.createElement('span');
             label.className = 'tab-label';
             label.textContent = filename;
