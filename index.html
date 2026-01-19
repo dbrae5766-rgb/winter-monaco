@@ -292,6 +292,41 @@
             }
         }
 
+        function renameTab(tab, label) {
+            const oldFilename = tab.dataset.file;
+            const input = document.createElement('input');
+            input.className = 'rename-input';
+            input.type = 'text';
+            input.value = oldFilename;
+            label.replaceWith(input);
+            input.focus();
+            input.select();
+
+            const finishRename = () => {
+                const newFilename = input.value.trim() || oldFilename;
+                if (newFilename !== oldFilename && !models[newFilename]) {
+                    models[newFilename] = models[oldFilename];
+                    editors[newFilename] = editors[oldFilename];
+                    delete models[oldFilename];
+                    delete editors[oldFilename];
+                    tab.dataset.file = newFilename;
+                    const editorDiv = document.getElementById(`editor-${oldFilename}`);
+                    if (editorDiv) editorDiv.id = `editor-${newFilename}`;
+                    if (activeTab === oldFilename) activeTab = newFilename;
+                }
+                const newLabel = document.createElement('span');
+                newLabel.className = 'tab-label';
+                newLabel.textContent = tab.dataset.file;
+                input.replaceWith(newLabel);
+            };
+
+            input.addEventListener('blur', finishRename);
+            input.addEventListener('keydown', e => {
+                if (e.key === 'Enter') finishRename();
+                if (e.key === 'Escape') { input.value = oldFilename; finishRename(); }
+            });
+        }
+
         document.getElementById('addTabBtn').onclick = () => addNewTab();
 
         window.getEditorValue = () => activeTab ? editors[activeTab].getValue() : '';
@@ -299,28 +334,80 @@
 
         // --- THEME CHANGER FROM C# ---
         window.setThemeColors = theme => {
-            let colors = { background: '#191919', foreground: '#e6edf3', accent: '#ff8555' };
+            let colors = { background: '#191919', foreground: '#e6edf3', accent: '#ff8555', scrollbar: '#ff6b35' };
+            
             switch(theme) {
-                case 'black': colors = { background: '#0d0d0d', foreground: '#ffffff', accent: '#ff6b35' }; break;
-                case 'blue': colors = { background: '#0b1e4f', foreground: '#e0e8ff', accent: '#4da6ff' }; break;
-                case 'green': colors = { background: '#0d250d', foreground: '#e6ffe6', accent: '#3fff3f' }; break;
-                case 'red': colors = { background: '#2a0d0d', foreground: '#ffe6e6', accent: '#ff3f3f' }; break;
-                case 'pink': colors = { background: '#2d0d1a', foreground: '#ffe6f0', accent: '#ff6bbd' }; break;
-                case 'white': colors = { background: '#f8f8f8', foreground: '#1a1a1a', accent: '#ff8555' }; break;
-                case 'yellow': colors = { background: '#2a2a0d', foreground: '#ffffd9', accent: '#ffea3f' }; break;
+                case 'black': 
+                    colors = { background: '#0d0d0d', foreground: '#ffffff', accent: '#ff6b35', scrollbar: '#ff6b35' }; 
+                    break;
+                case 'blue': 
+                    colors = { background: '#0b1e4f', foreground: '#e0e8ff', accent: '#4da6ff', scrollbar: '#4da6ff' }; 
+                    break;
+                case 'green': 
+                    colors = { background: '#0d250d', foreground: '#e6ffe6', accent: '#3fff3f', scrollbar: '#3fff3f' }; 
+                    break;
+                case 'red': 
+                    colors = { background: '#2a0d0d', foreground: '#ffe6e6', accent: '#ff3f3f', scrollbar: '#ff3f3f' }; 
+                    break;
+                case 'pink': 
+                    colors = { background: '#2d0d1a', foreground: '#ffe6f0', accent: '#ff6bbd', scrollbar: '#ff6bbd' }; 
+                    break;
+                case 'white': 
+                    colors = { background: '#f8f8f8', foreground: '#1a1a1a', accent: '#ff8555', scrollbar: '#ff8555' }; 
+                    break;
+                case 'yellow': 
+                    colors = { background: '#2a2a0d', foreground: '#ffffd9', accent: '#ffea3f', scrollbar: '#ffea3f' }; 
+                    break;
             }
 
-            // Update body & tabs colors
+            // Update body & container colors
             document.body.style.background = colors.background;
             document.body.style.color = colors.foreground;
-            [...document.querySelectorAll('nav.tabs, #editors-container')].forEach(el => {
-                el.style.background = colors.background;
-            });
+            
+            // Update scrollbar
+            document.documentElement.style.setProperty('scrollbar-color', `${colors.scrollbar} ${colors.background}`);
+            
+            // Update tabs navigation
+            const navTabs = document.querySelector('nav.tabs');
+            if (navTabs) {
+                navTabs.style.background = colors.background;
+                navTabs.style.borderBottomColor = colors.accent + '33';
+            }
+            
+            // Update editors container
+            const editorsContainer = document.getElementById('editors-container');
+            if (editorsContainer) {
+                editorsContainer.style.background = colors.background;
+            }
+            
+            // Update all tab buttons
             [...document.querySelectorAll('nav.tabs button')].forEach(btn => {
                 btn.style.background = colors.background;
-                btn.style.borderColor = colors.accent;
                 btn.style.color = colors.foreground;
+                
+                if (btn.classList.contains('active')) {
+                    btn.style.borderColor = colors.accent;
+                    btn.style.color = colors.accent;
+                } else {
+                    btn.style.borderColor = colors.accent + '66';
+                }
             });
+            
+            // Update add tab button
+            const addTabBtn = document.querySelector('.add-tab');
+            if (addTabBtn) {
+                addTabBtn.style.background = colors.background;
+                addTabBtn.style.color = colors.accent;
+                addTabBtn.style.borderColor = colors.accent + '66';
+            }
+
+            // Update CSS custom properties for scrollbar
+            const style = document.createElement('style');
+            style.textContent = `
+                ::-webkit-scrollbar-track { background: ${colors.background}; }
+                ::-webkit-scrollbar-thumb { background: ${colors.scrollbar}; }
+            `;
+            document.head.appendChild(style);
 
             // Update Monaco editor theme dynamically
             if (monacoInstance) {
@@ -338,8 +425,15 @@
                     colors: {
                         'editor.background': colors.background,
                         'editor.foreground': colors.foreground,
+                        'editor.lineHighlightBackground': colors.background + 'dd',
+                        'editorLineNumber.foreground': '#6e7681',
+                        'editorLineNumber.activeForeground': colors.accent,
                         'editor.selectionBackground': colors.accent + '4d',
+                        'editor.inactiveSelectionBackground': colors.accent + '26',
                         'editorCursor.foreground': colors.accent,
+                        'scrollbarSlider.background': colors.scrollbar + '99',
+                        'scrollbarSlider.hoverBackground': colors.scrollbar + 'cc',
+                        'scrollbarSlider.activeBackground': colors.scrollbar,
                     }
                 });
                 Object.values(editors).forEach(ed => ed.updateOptions({ theme: 'flareTheme' }));
