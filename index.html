@@ -244,6 +244,14 @@
             });
             addNewTab('main.lua');
         });
+        
+        // Manual layout update on window resize
+        window.addEventListener('resize', () => {
+            Object.values(editors).forEach(editor => {
+                if (editor) editor.layout();
+            });
+        });
+        
         function addNewTab(name) {
             const filename = name || `main${fileCounter++}.lua`;
             const model = monacoInstance.editor.createModel('print("Flare")', 'lua');
@@ -258,11 +266,19 @@
                 fontSize: 14,
                 fontFamily: "'JetBrains Mono', 'Consolas', 'Courier New', monospace",
                 fontLigatures: true,
-                automaticLayout: true,
+                automaticLayout: false,
                 smoothScrolling: true,
                 cursorSmoothCaretAnimation: 'on',
                 cursorBlinking: 'smooth'
             });
+            
+            // Initial layout
+            setTimeout(() => {
+                if (editors[filename]) {
+                    editors[filename].layout();
+                }
+            }, 0);
+            
             createTab(filename);
             switchTab(filename);
         }
@@ -336,7 +352,15 @@
                 div.classList.remove('active');
             });
             const activeDiv = document.getElementById(`editor-${filename}`);
-            if (activeDiv) activeDiv.classList.add('active');
+            if (activeDiv) {
+                activeDiv.classList.add('active');
+                // Layout editor when switching tabs
+                if (editors[filename]) {
+                    setTimeout(() => {
+                        editors[filename].layout();
+                    }, 0);
+                }
+            }
         }
         function closeTab(filename, tab) {
             tab.classList.add('closing');
