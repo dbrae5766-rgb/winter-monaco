@@ -51,60 +51,50 @@
             overflow-x: auto;
         }
 
-            nav.tabs button {
-                background: #1e1e1e;
-                border: 2px solid #2a2a2a;
-                padding: 5px 11px;
-                border-radius: 6px;
-                font-size: 0.7rem;
-                color: #8b949e;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                gap: 6px;
-                user-select: none;
-                opacity: 0;
-                transform: translateY(0);
-                animation: fadeInTab 0.3s forwards;
-                transition: transform 0.15s ease-in-out, background 0.15s, border 0.15s, color 0.15s;
-                position: relative;
-            }
+        nav.tabs button {
+            background: #1e1e1e;
+            border: 2px solid #2a2a2a;
+            padding: 5px 11px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            color: #8b949e;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+            opacity: 0;
+            transform: translateY(0);
+            animation: fadeInTab 0.3s forwards;
+            transition: transform 0.15s ease-in-out, background 0.15s, border 0.15s, color 0.15s;
+            position: relative;
+        }
 
-                nav.tabs button.active {
-                    background: #1e1e1e;
-                    border: 2px solid #ff6b35;
-                    color: #ff8555;
-                    box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
-                    transform: translateY(2px);
-                }
+        nav.tabs button.active {
+            background: #1e1e1e;
+            border: 2px solid #ff6b35;
+            color: #ff8555;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+            transform: translateY(2px);
+        }
 
-                nav.tabs button:hover:not(.active) {
-                    background: #1e1e1e;
-                    border-color: #ff8555;
-                    color: #c9d1d9;
-                }
+        nav.tabs button:hover:not(.active) {
+            background: #1e1e1e;
+            border-color: #ff8555;
+            color: #c9d1d9;
+        }
 
-                nav.tabs button:active {
-                    transform: translateY(2px);
-                }
+        nav.tabs button:active {
+            transform: translateY(2px);
+        }
 
         @keyframes fadeInTab {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeOutTab {
-            from {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            to {
-                opacity: 0;
-                transform: translateY(-8px);
-            }
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-8px); }
         }
 
         nav.tabs button.closing {
@@ -122,9 +112,9 @@
             transition: opacity 0.2s ease;
         }
 
-            nav.tabs .close-btn:hover {
-                opacity: 1;
-            }
+        nav.tabs .close-btn:hover {
+            opacity: 1;
+        }
 
         nav.tabs .add-tab {
             width: 20px;
@@ -143,17 +133,14 @@
             transition: all 0.15s ease-in-out;
         }
 
-            nav.tabs .add-tab:hover {
-                background: #1e1e1e;
-                color: #ff6b35;
-                border-color: #ff6b35;
-                transform: scale(1.1);
-            }
+        nav.tabs .add-tab:hover {
+            background: #1e1e1e;
+            color: #ff6b35;
+            border-color: #ff6b35;
+            transform: scale(1.1);
+        }
 
-            nav.tabs .add-tab i {
-                font-size: 0.6rem;
-                pointer-events: none;
-            }
+        nav.tabs .add-tab i { font-size: 0.6rem; pointer-events: none; }
 
         #editors-container {
             flex: 1;
@@ -170,16 +157,9 @@
             display: none;
         }
 
-            .editor-instance.active {
-                display: block;
-                z-index: 1;
-            }
+        .editor-instance.active { display: block; z-index: 1; }
 
-        .tab-content {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+        .tab-content { display: flex; align-items: center; gap: 5px; }
 
         .tab-label {
             overflow: hidden;
@@ -205,14 +185,17 @@
         <button class="add-tab" id="addTabBtn"><i class="fas fa-plus"></i></button>
     </nav>
     <div id="editors-container"></div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
     <script>
         let models = {}, editors = {}, activeTab = null, fileCounter = 1, monacoInstance;
         const tabsContainer = document.getElementById('tabs');
         const editorsContainer = document.getElementById('editors-container');
+
         require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } });
         require(['vs/editor/editor.main'], () => {
             monacoInstance = monaco;
+
             monaco.editor.defineTheme('flareTheme', {
                 base: 'vs-dark',
                 inherit: true,
@@ -233,25 +216,12 @@
                     'editor.selectionBackground': '#ff6b354d',
                     'editor.inactiveSelectionBackground': '#ff6b3526',
                     'editorCursor.foreground': '#ff8555',
-                    'editorWidget.background': '#1e1e1e',
-                    'editorWidget.border': '#ff6b35',
-                    'editorSuggestWidget.background': '#1e1e1e',
-                    'editorSuggestWidget.border': '#2a2a2a',
-                    'editorSuggestWidget.selectedBackground': '#2a2a2a',
-                    'editorHoverWidget.background': '#1e1e1e',
-                    'editorHoverWidget.border': '#ff6b35',
                 }
             });
+
             addNewTab('main.lua');
         });
-        
-        // Manual layout update on window resize
-        window.addEventListener('resize', () => {
-            Object.values(editors).forEach(editor => {
-                if (editor) editor.layout();
-            });
-        });
-        
+
         function addNewTab(name) {
             const filename = name || `main${fileCounter++}.lua`;
             const model = monacoInstance.editor.createModel('print("Flare")', 'lua');
@@ -266,22 +236,15 @@
                 fontSize: 14,
                 fontFamily: "'JetBrains Mono', 'Consolas', 'Courier New', monospace",
                 fontLigatures: true,
-                automaticLayout: false,
-                smoothScrolling: true,
+                automaticLayout: true,
                 cursorSmoothCaretAnimation: 'on',
                 cursorBlinking: 'smooth'
             });
-            
-            // Initial layout
-            setTimeout(() => {
-                if (editors[filename]) {
-                    editors[filename].layout();
-                }
-            }, 0);
-            
+
             createTab(filename);
             switchTab(filename);
         }
+
         function createTab(filename) {
             const tab = document.createElement('button');
             tab.dataset.file = filename;
@@ -295,84 +258,32 @@
             const closeBtn = document.createElement('span');
             closeBtn.className = 'close-btn';
             closeBtn.innerHTML = '&times;';
-            closeBtn.onclick = e => {
-                e.stopPropagation();
-                closeTab(filename, tab);
-            };
+            closeBtn.onclick = e => { e.stopPropagation(); closeTab(filename, tab); };
             tabContent.appendChild(icon);
             tabContent.appendChild(label);
             tab.appendChild(tabContent);
             tab.appendChild(closeBtn);
-            tab.onclick = () => {
-                if (!tab.querySelector('input.rename-input')) switchTab(filename);
-            };
-            tab.ondblclick = e => {
-                e.stopPropagation();
-                renameTab(tab, label);
-            };
+            tab.onclick = () => { if (!tab.querySelector('input.rename-input')) switchTab(filename); };
+            tab.ondblclick = e => { e.stopPropagation(); renameTab(tab, label); };
             tabsContainer.insertBefore(tab, document.getElementById('addTabBtn'));
         }
-        function renameTab(tab, labelElement) {
-            const currentName = tab.dataset.file;
-            const input = document.createElement('input');
-            input.className = 'rename-input';
-            input.value = currentName;
-            labelElement.replaceWith(input);
-            input.focus();
-            input.select();
-            input.onblur = () => finishRename(input, tab, currentName);
-            input.onkeydown = e => {
-                if (e.key === 'Enter') input.blur();
-                if (e.key === 'Escape') input.replaceWith(labelElement);
-            };
-        }
-        function finishRename(input, tab, oldName) {
-            const newName = input.value.trim();
-            if (!newName || models[newName]) return input.replaceWith(document.createTextNode(oldName));
-            models[newName] = models[oldName];
-            delete models[oldName];
-            editors[newName] = editors[oldName];
-            delete editors[oldName];
-            const div = document.getElementById(`editor-${oldName}`);
-            div.id = `editor-${newName}`;
-            tab.dataset.file = newName;
-            const label = document.createElement('span');
-            label.className = 'tab-label';
-            label.textContent = newName;
-            input.replaceWith(label);
-            switchTab(newName);
-        }
+
         function switchTab(filename) {
             if (!models[filename]) return;
             activeTab = filename;
             [...tabsContainer.children].forEach(tab => {
                 tab.classList.toggle('active', tab.dataset.file === filename);
             });
-            [...editorsContainer.children].forEach(div => {
-                div.classList.remove('active');
-            });
+            [...editorsContainer.children].forEach(div => div.classList.remove('active'));
             const activeDiv = document.getElementById(`editor-${filename}`);
-            if (activeDiv) {
-                activeDiv.classList.add('active');
-                // Layout editor when switching tabs
-                if (editors[filename]) {
-                    setTimeout(() => {
-                        editors[filename].layout();
-                    }, 0);
-                }
-            }
+            if (activeDiv) activeDiv.classList.add('active');
         }
+
         function closeTab(filename, tab) {
             tab.classList.add('closing');
             setTimeout(() => tab.remove(), 300);
-            if (editors[filename]) {
-                editors[filename].dispose();
-                delete editors[filename];
-            }
-            if (models[filename]) {
-                models[filename].dispose();
-                delete models[filename];
-            }
+            if (editors[filename]) { editors[filename].dispose(); delete editors[filename]; }
+            if (models[filename]) { models[filename].dispose(); delete models[filename]; }
             document.getElementById(`editor-${filename}`)?.remove();
             if (activeTab === filename) {
                 const remaining = Object.keys(models);
@@ -380,10 +291,59 @@
                 else activeTab = null;
             }
         }
+
         document.getElementById('addTabBtn').onclick = () => addNewTab();
+
         window.getEditorValue = () => activeTab ? editors[activeTab].getValue() : '';
-        window.setEditorValue = content => {
-            if (activeTab) editors[activeTab].setValue(content);
+        window.setEditorValue = content => { if (activeTab) editors[activeTab].setValue(content); };
+
+        // --- THEME CHANGER FROM C# ---
+        window.setThemeColors = theme => {
+            let colors = { background: '#191919', foreground: '#e6edf3', accent: '#ff8555' };
+            switch(theme) {
+                case 'black': colors = { background: '#0d0d0d', foreground: '#ffffff', accent: '#ff6b35' }; break;
+                case 'blue': colors = { background: '#0b1e4f', foreground: '#e0e8ff', accent: '#4da6ff' }; break;
+                case 'green': colors = { background: '#0d250d', foreground: '#e6ffe6', accent: '#3fff3f' }; break;
+                case 'red': colors = { background: '#2a0d0d', foreground: '#ffe6e6', accent: '#ff3f3f' }; break;
+                case 'pink': colors = { background: '#2d0d1a', foreground: '#ffe6f0', accent: '#ff6bbd' }; break;
+                case 'white': colors = { background: '#f8f8f8', foreground: '#1a1a1a', accent: '#ff8555' }; break;
+                case 'yellow': colors = { background: '#2a2a0d', foreground: '#ffffd9', accent: '#ffea3f' }; break;
+            }
+
+            // Update body & tabs colors
+            document.body.style.background = colors.background;
+            document.body.style.color = colors.foreground;
+            [...document.querySelectorAll('nav.tabs, #editors-container')].forEach(el => {
+                el.style.background = colors.background;
+            });
+            [...document.querySelectorAll('nav.tabs button')].forEach(btn => {
+                btn.style.background = colors.background;
+                btn.style.borderColor = colors.accent;
+                btn.style.color = colors.foreground;
+            });
+
+            // Update Monaco editor theme dynamically
+            if (monacoInstance) {
+                monacoInstance.editor.defineTheme('flareTheme', {
+                    base: 'vs-dark',
+                    inherit: true,
+                    rules: [
+                        { token: 'comment', foreground: '6e7681', fontStyle: 'italic' },
+                        { token: 'keyword', foreground: colors.accent.replace('#',''), fontStyle: 'bold' },
+                        { token: 'string', foreground: 'ffa657' },
+                        { token: 'number', foreground: 'ffa657' },
+                        { token: 'function', foreground: 'ffb366' },
+                        { token: 'variable', foreground: 'ff9a4d' },
+                    ],
+                    colors: {
+                        'editor.background': colors.background,
+                        'editor.foreground': colors.foreground,
+                        'editor.selectionBackground': colors.accent + '4d',
+                        'editorCursor.foreground': colors.accent,
+                    }
+                });
+                Object.values(editors).forEach(ed => ed.updateOptions({ theme: 'flareTheme' }));
+            }
         };
     </script>
 </body>
