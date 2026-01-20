@@ -189,6 +189,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
     <script>
         let models = {}, editors = {}, activeTab = null, fileCounter = 1, monacoInstance;
+        let currentAccentColor = '#ff8555'; // Track current accent color
         const tabsContainer = document.getElementById('tabs');
         const editorsContainer = document.getElementById('editors-container');
 
@@ -272,7 +273,14 @@
             if (!models[filename]) return;
             activeTab = filename;
             [...tabsContainer.children].forEach(tab => {
-                tab.classList.toggle('active', tab.dataset.file === filename);
+                const isActive = tab.dataset.file === filename;
+                tab.classList.toggle('active', isActive);
+                
+                // Apply current accent color to active tab
+                if (isActive) {
+                    tab.style.borderColor = currentAccentColor;
+                    tab.style.color = currentAccentColor;
+                }
             });
             [...editorsContainer.children].forEach(div => div.classList.remove('active'));
             const activeDiv = document.getElementById(`editor-${filename}`);
@@ -360,6 +368,9 @@
                     break;
             }
 
+            // Store current accent color
+            currentAccentColor = colors.accent;
+
             // Update body & container colors
             document.body.style.background = colors.background;
             document.body.style.color = colors.foreground;
@@ -380,23 +391,18 @@
                 editorsContainer.style.background = colors.background;
             }
             
-            // Update all tab buttons
+            // Update only active tab with accent color, leave inactive tabs alone
             [...document.querySelectorAll('nav.tabs button')].forEach(btn => {
-                btn.style.background = colors.background;
-                btn.style.color = colors.foreground;
-                
                 if (btn.classList.contains('active')) {
                     btn.style.borderColor = colors.accent;
                     btn.style.color = colors.accent;
-                } else {
-                    btn.style.borderColor = colors.accent + '66';
                 }
+                // Don't update inactive tabs - they keep default colors
             });
             
             // Update add tab button
             const addTabBtn = document.querySelector('.add-tab');
             if (addTabBtn) {
-                addTabBtn.style.background = colors.background;
                 addTabBtn.style.color = colors.accent;
                 addTabBtn.style.borderColor = colors.accent + '66';
             }
