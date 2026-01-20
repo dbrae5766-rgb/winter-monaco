@@ -276,7 +276,7 @@
                 const isActive = tab.dataset.file === filename;
                 tab.classList.toggle('active', isActive);
                 
-                // Apply current accent color to active tab
+                // Apply current accent color to active tab only
                 if (isActive) {
                     tab.style.borderColor = currentAccentColor;
                     tab.style.color = currentAccentColor;
@@ -342,78 +342,35 @@
 
         // --- THEME CHANGER FROM C# ---
         window.setThemeColors = theme => {
-            let colors = { background: '#191919', foreground: '#e6edf3', accent: '#ff8555', scrollbar: '#ff6b35' };
+            let accent = '#ff8555';
             
             switch(theme) {
-                case 'black': 
-                    colors = { background: '#0d0d0d', foreground: '#ffffff', accent: '#ff6b35', scrollbar: '#ff6b35' }; 
-                    break;
-                case 'blue': 
-                    colors = { background: '#0b1e4f', foreground: '#e0e8ff', accent: '#4da6ff', scrollbar: '#4da6ff' }; 
-                    break;
-                case 'green': 
-                    colors = { background: '#0d250d', foreground: '#e6ffe6', accent: '#3fff3f', scrollbar: '#3fff3f' }; 
-                    break;
-                case 'red': 
-                    colors = { background: '#2a0d0d', foreground: '#ffe6e6', accent: '#ff3f3f', scrollbar: '#ff3f3f' }; 
-                    break;
-                case 'pink': 
-                    colors = { background: '#2d0d1a', foreground: '#ffe6f0', accent: '#ff6bbd', scrollbar: '#ff6bbd' }; 
-                    break;
-                case 'white': 
-                    colors = { background: '#f8f8f8', foreground: '#1a1a1a', accent: '#ff8555', scrollbar: '#ff8555' }; 
-                    break;
-                case 'yellow': 
-                    colors = { background: '#2a2a0d', foreground: '#ffffd9', accent: '#ffea3f', scrollbar: '#ffea3f' }; 
-                    break;
+                case 'black': accent = '#c8c8c8'; break;
+                case 'blue': accent = '#4da6ff'; break;
+                case 'green': accent = '#3fff3f'; break;
+                case 'red': accent = '#ff3f3f'; break;
+                case 'pink': accent = '#ff6bbd'; break;
+                case 'white': accent = '#323232'; break;
+                case 'yellow': accent = '#ffea3f'; break;
+                case 'orange': accent = '#ff8555'; break;
             }
 
             // Store current accent color
-            currentAccentColor = colors.accent;
+            currentAccentColor = accent;
 
-            // Update body & container colors
-            document.body.style.background = colors.background;
-            document.body.style.color = colors.foreground;
-            
-            // Update scrollbar
-            document.documentElement.style.setProperty('scrollbar-color', `${colors.scrollbar} ${colors.background}`);
-            
-            // Update tabs navigation
-            const navTabs = document.querySelector('nav.tabs');
-            if (navTabs) {
-                navTabs.style.background = colors.background;
-                navTabs.style.borderBottomColor = colors.accent + '33';
-            }
-            
-            // Update editors container
-            const editorsContainer = document.getElementById('editors-container');
-            if (editorsContainer) {
-                editorsContainer.style.background = colors.background;
-            }
-            
-            // Update only active tab with accent color, leave inactive tabs alone
+            // Update ONLY the active tab
             [...document.querySelectorAll('nav.tabs button')].forEach(btn => {
                 if (btn.classList.contains('active')) {
-                    btn.style.borderColor = colors.accent;
-                    btn.style.color = colors.accent;
+                    btn.style.borderColor = accent;
+                    btn.style.color = accent;
                 }
-                // Don't update inactive tabs - they keep default colors
             });
             
             // Update add tab button
             const addTabBtn = document.querySelector('.add-tab');
             if (addTabBtn) {
-                addTabBtn.style.color = colors.accent;
-                addTabBtn.style.borderColor = colors.accent + '66';
+                addTabBtn.style.color = accent;
             }
-
-            // Update CSS custom properties for scrollbar
-            const style = document.createElement('style');
-            style.textContent = `
-                ::-webkit-scrollbar-track { background: ${colors.background}; }
-                ::-webkit-scrollbar-thumb { background: ${colors.scrollbar}; }
-            `;
-            document.head.appendChild(style);
 
             // Update Monaco editor theme dynamically
             if (monacoInstance) {
@@ -422,24 +379,21 @@
                     inherit: true,
                     rules: [
                         { token: 'comment', foreground: '6e7681', fontStyle: 'italic' },
-                        { token: 'keyword', foreground: colors.accent.replace('#',''), fontStyle: 'bold' },
+                        { token: 'keyword', foreground: accent.replace('#',''), fontStyle: 'bold' },
                         { token: 'string', foreground: 'ffa657' },
                         { token: 'number', foreground: 'ffa657' },
                         { token: 'function', foreground: 'ffb366' },
                         { token: 'variable', foreground: 'ff9a4d' },
                     ],
                     colors: {
-                        'editor.background': colors.background,
-                        'editor.foreground': colors.foreground,
-                        'editor.lineHighlightBackground': colors.background + 'dd',
+                        'editor.background': '#191919',
+                        'editor.foreground': '#e6edf3',
+                        'editor.lineHighlightBackground': '#1e1e1e',
                         'editorLineNumber.foreground': '#6e7681',
-                        'editorLineNumber.activeForeground': colors.accent,
-                        'editor.selectionBackground': colors.accent + '4d',
-                        'editor.inactiveSelectionBackground': colors.accent + '26',
-                        'editorCursor.foreground': colors.accent,
-                        'scrollbarSlider.background': colors.scrollbar + '99',
-                        'scrollbarSlider.hoverBackground': colors.scrollbar + 'cc',
-                        'scrollbarSlider.activeBackground': colors.scrollbar,
+                        'editorLineNumber.activeForeground': accent,
+                        'editor.selectionBackground': accent + '4d',
+                        'editor.inactiveSelectionBackground': accent + '26',
+                        'editorCursor.foreground': accent,
                     }
                 });
                 Object.values(editors).forEach(ed => ed.updateOptions({ theme: 'flareTheme' }));
