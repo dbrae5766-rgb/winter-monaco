@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Flare Editor</title>
+    <title>Catexp Editor</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
@@ -13,7 +13,7 @@
             padding: 0;
             box-sizing: border-box;
             scrollbar-width: thin;
-            scrollbar-color: #ff6b35 #191919;
+            scrollbar-color: #3a3a3a #191919;
         }
 
         body {
@@ -36,17 +36,21 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #ff6b35;
+            background: #3a3a3a;
             border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4a4a4a;
         }
 
         nav.tabs {
             display: flex;
             align-items: center;
-            background: #191919;
+            background: #1e1e1e;
             padding: 6px 0 6px 10px;
             gap: 4px;
-            border-bottom: 1px solid #1e1e1e;
+            border-bottom: 1px solid #2a2a2a;
             min-height: 34px;
             overflow-x: auto;
         }
@@ -71,16 +75,16 @@
         }
 
         nav.tabs button.active {
-            background: #1e1e1e;
-            border: 2px solid #ff6b35;
-            color: #ff8555;
+            background: #252525;
+            border: 2px solid #505050;
+            color: #c9d1d9;
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
             transform: translateY(2px);
         }
 
         nav.tabs button:hover:not(.active) {
-            background: #1e1e1e;
-            border-color: #ff8555;
+            background: #252525;
+            border-color: #404040;
             color: #c9d1d9;
         }
 
@@ -120,7 +124,7 @@
             width: 20px;
             height: 20px;
             font-size: 0.6rem;
-            color: #ff8555;
+            color: #8b949e;
             background: #1e1e1e;
             border: 1px solid #2a2a2a;
             border-radius: 50%;
@@ -134,9 +138,9 @@
         }
 
         nav.tabs .add-tab:hover {
-            background: #1e1e1e;
-            color: #ff6b35;
-            border-color: #ff6b35;
+            background: #252525;
+            color: #c9d1d9;
+            border-color: #404040;
             transform: scale(1.1);
         }
 
@@ -173,7 +177,7 @@
             font-size: 0.7rem;
             background: #1e1e1e;
             color: #e6edf3;
-            border: 1px solid #ff6b35;
+            border: 1px solid #505050;
             border-radius: 4px;
             padding: 2px 6px;
             width: 100px;
@@ -189,7 +193,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
     <script>
         let models = {}, editors = {}, activeTab = null, fileCounter = 1, monacoInstance;
-        let currentAccentColor = '#ff8555'; // Track current accent color
+        let currentAccentColor = '#6a6a6a'; // Track current accent color
         const tabsContainer = document.getElementById('tabs');
         const editorsContainer = document.getElementById('editors-container');
 
@@ -197,26 +201,28 @@
         require(['vs/editor/editor.main'], () => {
             monacoInstance = monaco;
 
-            monaco.editor.defineTheme('flareTheme', {
+            monaco.editor.defineTheme('catexpTheme', {
                 base: 'vs-dark',
                 inherit: true,
                 rules: [
                     { token: 'comment', foreground: '6e7681', fontStyle: 'italic' },
-                    { token: 'keyword', foreground: 'ff8555', fontStyle: 'bold' },
-                    { token: 'string', foreground: 'ffa657' },
-                    { token: 'number', foreground: 'ffa657' },
-                    { token: 'function', foreground: 'ffb366' },
-                    { token: 'variable', foreground: 'ff9a4d' },
+                    { token: 'keyword', foreground: '9cdcfe', fontStyle: 'bold' },
+                    { token: 'string', foreground: 'ce9178' },
+                    { token: 'number', foreground: 'b5cea8' },
+                    { token: 'function', foreground: 'dcdcaa' },
+                    { token: 'variable', foreground: '9cdcfe' },
                 ],
                 colors: {
                     'editor.background': '#191919',
-                    'editor.foreground': '#e6edf3',
+                    'editor.foreground': '#d4d4d4',
                     'editor.lineHighlightBackground': '#1e1e1e',
                     'editorLineNumber.foreground': '#6e7681',
-                    'editorLineNumber.activeForeground': '#ff8555',
-                    'editor.selectionBackground': '#ff6b354d',
-                    'editor.inactiveSelectionBackground': '#ff6b3526',
-                    'editorCursor.foreground': '#ff8555',
+                    'editorLineNumber.activeForeground': '#c9d1d9',
+                    'editor.selectionBackground': '#3a3a3a',
+                    'editor.inactiveSelectionBackground': '#2a2a2a',
+                    'editorCursor.foreground': '#c9d1d9',
+                    'editorIndentGuide.background': '#2a2a2a',
+                    'editorIndentGuide.activeBackground': '#3a3a3a',
                 }
             });
 
@@ -225,7 +231,7 @@
 
         function addNewTab(name) {
             const filename = name || `main${fileCounter++}.lua`;
-            const model = monacoInstance.editor.createModel('print("Flare")', 'lua');
+            const model = monacoInstance.editor.createModel('print("', 'lua');
             models[filename] = model;
             const editorDiv = document.createElement('div');
             editorDiv.id = `editor-${filename}`;
@@ -233,13 +239,20 @@
             editorsContainer.appendChild(editorDiv);
             editors[filename] = monacoInstance.editor.create(editorDiv, {
                 model: model,
-                theme: 'flareTheme',
+                theme: 'catexpTheme',
                 fontSize: 14,
                 fontFamily: "'JetBrains Mono', 'Consolas', 'Courier New', monospace",
                 fontLigatures: true,
                 automaticLayout: true,
                 cursorSmoothCaretAnimation: 'on',
-                cursorBlinking: 'smooth'
+                cursorBlinking: 'smooth',
+                minimap: { enabled: false },
+                scrollbar: {
+                    vertical: 'auto',
+                    horizontal: 'auto',
+                    verticalScrollbarSize: 8,
+                    horizontalScrollbarSize: 8
+                }
             });
 
             createTab(filename);
@@ -252,7 +265,7 @@
             const tabContent = document.createElement('div');
             tabContent.className = 'tab-content';
             const icon = document.createElement('i');
-            icon.className = 'fas fa-fire';
+            icon.className = 'fas fa-file-code';
             const label = document.createElement('span');
             label.className = 'tab-label';
             label.textContent = filename;
@@ -279,7 +292,7 @@
                 // Apply current accent color to active tab only
                 if (isActive) {
                     tab.style.borderColor = currentAccentColor;
-                    tab.style.color = currentAccentColor;
+                    tab.style.color = '#c9d1d9';
                 }
             });
             [...editorsContainer.children].forEach(div => div.classList.remove('active'));
@@ -342,7 +355,7 @@
 
         // --- THEME CHANGER FROM C# ---
         window.setThemeColors = theme => {
-            let accent = '#ff8555';
+            let accent = '#6a6a6a';
             
             switch(theme) {
                 case 'black': accent = '#c8c8c8'; break;
@@ -353,6 +366,7 @@
                 case 'white': accent = '#323232'; break;
                 case 'yellow': accent = '#ffea3f'; break;
                 case 'orange': accent = '#ff8555'; break;
+                default: accent = '#6a6a6a'; break;
             }
 
             // Store current accent color
@@ -362,41 +376,42 @@
             [...document.querySelectorAll('nav.tabs button')].forEach(btn => {
                 if (btn.classList.contains('active')) {
                     btn.style.borderColor = accent;
-                    btn.style.color = accent;
                 }
             });
             
-            // Update add tab button
+            // Update add tab button hover color
             const addTabBtn = document.querySelector('.add-tab');
             if (addTabBtn) {
-                addTabBtn.style.color = accent;
+                addTabBtn.style.borderColor = '#2a2a2a';
             }
 
             // Update Monaco editor theme dynamically
             if (monacoInstance) {
-                monacoInstance.editor.defineTheme('flareTheme', {
+                monacoInstance.editor.defineTheme('catexpTheme', {
                     base: 'vs-dark',
                     inherit: true,
                     rules: [
                         { token: 'comment', foreground: '6e7681', fontStyle: 'italic' },
                         { token: 'keyword', foreground: accent.replace('#',''), fontStyle: 'bold' },
-                        { token: 'string', foreground: 'ffa657' },
-                        { token: 'number', foreground: 'ffa657' },
-                        { token: 'function', foreground: 'ffb366' },
-                        { token: 'variable', foreground: 'ff9a4d' },
+                        { token: 'string', foreground: 'ce9178' },
+                        { token: 'number', foreground: 'b5cea8' },
+                        { token: 'function', foreground: 'dcdcaa' },
+                        { token: 'variable', foreground: '9cdcfe' },
                     ],
                     colors: {
                         'editor.background': '#191919',
-                        'editor.foreground': '#e6edf3',
+                        'editor.foreground': '#d4d4d4',
                         'editor.lineHighlightBackground': '#1e1e1e',
                         'editorLineNumber.foreground': '#6e7681',
                         'editorLineNumber.activeForeground': accent,
                         'editor.selectionBackground': accent + '4d',
                         'editor.inactiveSelectionBackground': accent + '26',
                         'editorCursor.foreground': accent,
+                        'editorIndentGuide.background': '#2a2a2a',
+                        'editorIndentGuide.activeBackground': '#3a3a3a',
                     }
                 });
-                Object.values(editors).forEach(ed => ed.updateOptions({ theme: 'flareTheme' }));
+                Object.values(editors).forEach(ed => ed.updateOptions({ theme: 'catexpTheme' }));
             }
         };
     </script>
