@@ -231,7 +231,7 @@
 
         function addNewTab(name) {
             const filename = name || `main${fileCounter++}.lua`;
-            const model = monacoInstance.editor.createModel('print("', 'lua');
+            const model = monacoInstance.editor.createModel('print("catexp.xyz")', 'lua');
             models[filename] = model;
             const editorDiv = document.createElement('div');
             editorDiv.id = `editor-${filename}`;
