@@ -239,8 +239,7 @@
 
         function addNewTab(name) {
             const filename = name || `main${fileCounter++}.lua`;
-            const model = monacoInstance.editor.createModel('print("#flareStillGoated")
-                                                            --peace out guys -remzy', 'lua');
+          const model = monacoInstance.editor.createModel('print("#flareStillGoated")\n--peace out guys -remzy', 'lua');
             models[filename] = model;
             const editorDiv = document.createElement('div');
             editorDiv.id = `editor-${filename}`;
