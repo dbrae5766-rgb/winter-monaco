@@ -5,15 +5,18 @@
     <title>Vanity Editor</title>
     <style type="text/css">
 :root {
-    --bg-color: #141414;
-    --secondary-bg: #141414;
-    --panel-bg: #141414;
-    --text-color: #E8EDF4;
-    --secondary-text: #A9B4C7;
-    --accent-color: #7B68EE;
-    --hover-color: #6A5ACD;
-    --pressed-color: #483D8B;
-    --border-color: #282828;
+    --bg-color: rgb(21,21,21);
+    --secondary-bg: rgb(18,18,18);
+    --panel-bg: rgb(24,24,24);
+
+    --text-color: #ECE7DF;
+    --secondary-text: #8E887D;
+
+    --accent-color: #B8844C;
+    --hover-color: #96663B;
+    --pressed-color: #6B4527;
+
+    --border-color: #2E2A26;
 }
 
         * { box-sizing: border-box; }
@@ -308,47 +311,69 @@
             monaco.editor.defineTheme('VanityTheme', {
                 base: 'vs-dark',
                 inherit: true,
-                rules: [
-                    { token: '', foreground: 'E8EDF4' },
-                    { token: 'keyword', foreground: '7B68EE', fontStyle: 'bold' },
-                    { token: 'string', foreground: '9B8FFF' },
-                    { token: 'number', foreground: 'B5CEA8' },
-                    { token: 'function', foreground: 'C8B8FF' },
-                    { token: 'support.function', foreground: 'C8B8FF' },
-                    { token: 'variable', foreground: 'E8EDF4' },
-                    { token: 'operator', foreground: 'A9B4C7' },
-                    { token: 'delimiter', foreground: 'A9B4C7' },
-                    { token: 'comment', foreground: '4A5568', fontStyle: 'italic' },
-                    { token: 'constant', foreground: 'B5CEA8' },
-                    { token: 'library', foreground: '7B68EE' },
-                    { token: 'constant.language', foreground: '9B8FFF' }
-                ],
+         rules: [
+    { token: '', foreground: 'ECE7DF' },
+
+    { token: 'keyword', foreground: 'C9924F', fontStyle: 'bold' },
+
+    { token: 'string', foreground: 'D8B36A' },
+
+    { token: 'number', foreground: 'C4D28A' },
+
+    { token: 'function', foreground: 'E2B67D' },
+
+    { token: 'support.function', foreground: 'E2B67D' },
+
+    { token: 'variable', foreground: 'ECE7DF' },
+
+    { token: 'operator', foreground: 'B8AEA2' },
+
+    { token: 'delimiter', foreground: 'B8AEA2' },
+
+    { token: 'comment', foreground: '6B665F', fontStyle: 'italic' },
+
+    { token: 'constant', foreground: 'D4C37A' },
+
+    { token: 'library', foreground: 'C9924F' },
+
+    { token: 'constant.language', foreground: 'E0A45A' }
+],
                 colors: {
-                    'editor.background': '#141414',
-                    'editor.foreground': '#E8EDF4',
-                    'editorLineNumber.foreground': '#3D3D3D',
-                    'editorLineNumber.activeForeground': '#7B68EE',
-                    'editorIndentGuide.background': '#1B1B1B',
-                    'editorIndentGuide.activeBackground': '#7B68EE',
-                    'editorSuggestWidget.background': '#141414',
-                    'editorSuggestWidget.border': '#282828',
-                    'editorSuggestWidget.foreground': '#E8EDF4',
-                    'editorSuggestWidget.selectedBackground': '#483D8B',
-                    'editorSuggestWidget.highlightForeground': '#7B68EE',
-                    'editor.selectionBackground': '#483D8B',
-                    'editor.selectionHighlightBackground': '#2D2455',
-                    'scrollbarSlider.background': '#1B1B1B',
-                    'scrollbarSlider.hoverBackground': '#483D8B',
-                    'scrollbarSlider.activeBackground': '#6A5ACD',
-                    'editorCursor.foreground': '#7B68EE',
-                    'editorGutter.background': '#141414',
-                    'editorWidget.background': '#141414',
-                    'editorWidget.border': '#282828',
-                    'input.background': '#1B1B1B',
-                    'input.foreground': '#E8EDF4',
-                    'list.hoverBackground': '#1B1B1B',
-                    'list.activeSelectionBackground': '#483D8B'
-                }
+    'editor.background': '#151515',
+    'editor.foreground': '#ECE7DF',
+
+    'editorLineNumber.foreground': '#54504B',
+    'editorLineNumber.activeForeground': '#C9924F',
+
+    'editorIndentGuide.background': '#252525',
+    'editorIndentGuide.activeBackground': '#96663B',
+
+    'editor.selectionBackground': '#55371F',
+    'editor.selectionHighlightBackground': '#3F2A19',
+
+    'editorCursor.foreground': '#D99A53',
+
+    'editorSuggestWidget.background': '#1A1A1A',
+    'editorSuggestWidget.border': '#2E2A26',
+    'editorSuggestWidget.foreground': '#ECE7DF',
+    'editorSuggestWidget.selectedBackground': '#6B4527',
+    'editorSuggestWidget.highlightForeground': '#D99A53',
+
+    'editorWidget.background': '#1A1A1A',
+    'editorWidget.border': '#2E2A26',
+
+    'editorGutter.background': '#151515',
+
+    'scrollbarSlider.background': '#2A2A2A',
+    'scrollbarSlider.hoverBackground': '#7A5634',
+    'scrollbarSlider.activeBackground': '#B8844C',
+
+    'input.background': '#1A1A1A',
+    'input.foreground': '#ECE7DF',
+
+    'list.hoverBackground': '#252525',
+    'list.activeSelectionBackground': '#6B4527'
+}
             });
             if (editor) monaco.editor.setTheme('VanityTheme');
         }
