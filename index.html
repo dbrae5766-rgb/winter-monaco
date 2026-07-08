@@ -9,16 +9,15 @@
     --secondary-bg: rgb(18,18,18);
     --panel-bg: rgb(24,24,24);
 
-    --text-color: #ECE7DF;
-    --secondary-text: #8E887D;
+    --text-color: #ECECEC;
+    --secondary-text: #9B9B9B;
 
-    --accent-color: #B8844C;
-    --hover-color: #96663B;
-    --pressed-color: #6B4527;
+    --accent-color: #FF6BB5;
+    --hover-color: #E255A0;
+    --pressed-color: #B93B82;
 
-    --border-color: #2E2A26;
+    --border-color: #2A2A2A;
 }
-
         * { box-sizing: border-box; }
 
         html, body {
@@ -311,68 +310,68 @@
             monaco.editor.defineTheme('VanityTheme', {
                 base: 'vs-dark',
                 inherit: true,
-         rules: [
-    { token: '', foreground: 'ECE7DF' },
+        rules: [
+    { token: '', foreground: 'ECECEC' },
 
-    { token: 'keyword', foreground: 'C9924F', fontStyle: 'bold' },
+    { token: 'keyword', foreground: 'FF6BB5', fontStyle: 'bold' },
 
-    { token: 'string', foreground: 'D8B36A' },
+    { token: 'string', foreground: 'F4A9CF' },
 
-    { token: 'number', foreground: 'C4D28A' },
+    { token: 'number', foreground: 'C6E48B' },
 
-    { token: 'function', foreground: 'E2B67D' },
+    { token: 'function', foreground: 'FF89C7' },
 
-    { token: 'support.function', foreground: 'E2B67D' },
+    { token: 'support.function', foreground: 'FF89C7' },
 
-    { token: 'variable', foreground: 'ECE7DF' },
+    { token: 'variable', foreground: 'ECECEC' },
 
-    { token: 'operator', foreground: 'B8AEA2' },
+    { token: 'operator', foreground: 'BDBDBD' },
 
-    { token: 'delimiter', foreground: 'B8AEA2' },
+    { token: 'delimiter', foreground: 'BDBDBD' },
 
-    { token: 'comment', foreground: '6B665F', fontStyle: 'italic' },
+    { token: 'comment', foreground: '666666', fontStyle: 'italic' },
 
-    { token: 'constant', foreground: 'D4C37A' },
+    { token: 'constant', foreground: 'C6E48B' },
 
-    { token: 'library', foreground: 'C9924F' },
+    { token: 'library', foreground: 'FF6BB5' },
 
-    { token: 'constant.language', foreground: 'E0A45A' }
+    { token: 'constant.language', foreground: 'FF89C7' }
 ],
-                colors: {
+              colors: {
     'editor.background': '#151515',
-    'editor.foreground': '#ECE7DF',
+    'editor.foreground': '#ECECEC',
 
-    'editorLineNumber.foreground': '#54504B',
-    'editorLineNumber.activeForeground': '#C9924F',
+    'editorLineNumber.foreground': '#555555',
+    'editorLineNumber.activeForeground': '#FF6BB5',
 
-    'editorIndentGuide.background': '#252525',
-    'editorIndentGuide.activeBackground': '#96663B',
+    'editorIndentGuide.background': '#2A2A2A',
+    'editorIndentGuide.activeBackground': '#FF6BB5',
 
-    'editor.selectionBackground': '#55371F',
-    'editor.selectionHighlightBackground': '#3F2A19',
+    'editor.selectionBackground': '#7A2C59',
+    'editor.selectionHighlightBackground': '#5C2143',
 
-    'editorCursor.foreground': '#D99A53',
+    'editorCursor.foreground': '#FF7EC2',
 
-    'editorSuggestWidget.background': '#1A1A1A',
-    'editorSuggestWidget.border': '#2E2A26',
-    'editorSuggestWidget.foreground': '#ECE7DF',
-    'editorSuggestWidget.selectedBackground': '#6B4527',
-    'editorSuggestWidget.highlightForeground': '#D99A53',
+    'editorSuggestWidget.background': '#1B1B1B',
+    'editorSuggestWidget.border': '#2A2A2A',
+    'editorSuggestWidget.foreground': '#ECECEC',
+    'editorSuggestWidget.selectedBackground': '#B93B82',
+    'editorSuggestWidget.highlightForeground': '#FF6BB5',
 
-    'editorWidget.background': '#1A1A1A',
-    'editorWidget.border': '#2E2A26',
+    'editorWidget.background': '#1B1B1B',
+    'editorWidget.border': '#2A2A2A',
 
     'editorGutter.background': '#151515',
 
-    'scrollbarSlider.background': '#2A2A2A',
-    'scrollbarSlider.hoverBackground': '#7A5634',
-    'scrollbarSlider.activeBackground': '#B8844C',
+    'scrollbarSlider.background': '#2D2D2D',
+    'scrollbarSlider.hoverBackground': '#E255A0',
+    'scrollbarSlider.activeBackground': '#FF6BB5',
 
-    'input.background': '#1A1A1A',
-    'input.foreground': '#ECE7DF',
+    'input.background': '#1B1B1B',
+    'input.foreground': '#ECECEC',
 
     'list.hoverBackground': '#252525',
-    'list.activeSelectionBackground': '#6B4527'
+    'list.activeSelectionBackground': '#B93B82'
 }
             });
             if (editor) monaco.editor.setTheme('VanityTheme');
